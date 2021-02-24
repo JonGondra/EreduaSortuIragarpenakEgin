@@ -34,12 +34,19 @@ public class IragarpenaEgin {
             FileWriter fw = new FileWriter(txtpredict);
             eval.evaluateModel(cls, data);
 
-            fw.write("/////////////////////////PREDIKZIOAK/////////////////////////\n\n\n");
+            fw.write("/////////////////////////////PREDIKZIOAK////////////////////////////////\n\n\n");
+            fw.write("\n \t Iragarpena \t \t \tErreala \t \t ERROREA");
             for(Prediction p:  eval.predictions()) {
-                fw.write("\n Iragarpena : "+data.attribute(data.numAttributes()-1).value((int) p.predicted()) + " eta balio erreala : " +data.attribute(data.numAttributes()-1).value((int) p.actual()));
+                String iragarpena = data.attribute(data.numAttributes()-1).value((int) p.predicted());
+                String erreala = data.attribute(data.numAttributes()-1).value((int) p.actual());
+                String tick = "";
+                if(iragarpena!=erreala){
+                    tick = "x";
+                }
+                fw.write("\n \t  "+iragarpena+ " \t \t \t" +erreala+"\t \t \t    "+tick);
             }
-            fw.write("\n"+eval.toMatrixString());
-            fw.write(String.valueOf(eval.weightedFMeasure()));
+            fw.write("\n\n"+eval.toMatrixString());
+            fw.write("\n\n Fmeasure : "+eval.weightedFMeasure());
             fw.close();
         }
     }
