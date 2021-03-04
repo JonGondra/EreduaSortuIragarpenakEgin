@@ -35,15 +35,21 @@ public class IragarpenaEgin {
             eval.evaluateModel(cls, data);
 
             fw.write("/////////////////////////////PREDIKZIOAK////////////////////////////////\n\n\n");
-            fw.write("\n \t Iragarpena \t \t \tErreala \t \t ERROREA");
+            fw.write("\n \t Instantzia \t Iragarpena \t Erreala \t ERROREA");
+            int instantzia = 1;
             for(Prediction p:  eval.predictions()) {
                 String iragarpena = data.attribute(data.numAttributes()-1).value((int) p.predicted());
                 String erreala = data.attribute(data.numAttributes()-1).value((int) p.actual());
                 String tick = "";
+
+                if(Double.isNaN(p.actual())) {
+                    iragarpena = "    ?";
+                }
                 if(iragarpena!=erreala){
                     tick = "x";
                 }
-                fw.write("\n \t  "+iragarpena+ " \t \t \t" +erreala+"\t \t \t    "+tick);
+                fw.write("\n \t  "+instantzia+" \t \t "+iragarpena+ " \t " +erreala+" \t    "+tick);
+                instantzia++;
             }
             fw.write("\n\n"+eval.toMatrixString());
             fw.write("\n\n Fmeasure : "+eval.weightedFMeasure());
